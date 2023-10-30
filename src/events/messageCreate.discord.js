@@ -9,15 +9,10 @@ module.exports = async (client, message) => {
 	if (channel.id !== DISCORD_CHANNEL) return
 	if ([HUMMUS_BOT, DISCORD_BOT].includes(author.id)) return
 
-	const embed = {
-		description: content,
-		author: {
-			name: `${author.username}`,
-			icon_url: `https://cdn.discordapp.com/avatars/${author.id}/${author.avatar}.png?size=4096`,
-		},
-	}
-
-	client.hummus.createMessage(HUMMUS_CHANNEL, { embed })
+	client.hummus.createMessage(HUMMUS_CHANNEL, {
+		content: `**${author.username}:** ${content}`,
+		embeds: message.embeds,
+	})
 
 	if (!channel.guild) return
 	if (author.bot) return

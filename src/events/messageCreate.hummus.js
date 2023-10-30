@@ -18,6 +18,7 @@ module.exports = async (client, message) => {
 			username: `${author.username}#${author.discriminator}`,
 			avatar_url: `https://hummus-cdn.sys42.net/avatars/${author.id}/${author.avatar}.png?size=4096`,
 			channel_id: DISCORD_CHANNEL,
+			embeds: message.embeds,
 		}),
 	})
 
