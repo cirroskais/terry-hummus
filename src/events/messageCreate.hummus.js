@@ -1,23 +1,25 @@
 const HUMMUS_CHANNEL = process.env.HUMMUS_CHANNEL
 const HUMMUS_BOT = process.env.HUMMUS_BOT
+const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK
 const DISCORD_CHANNEL = process.env.DISCORD_CHANNEL
 const DISCORD_BOT = process.env.DISCORD_BOT
 
 module.exports = async (client, message) => {
-	const { content, author, channel, attachments } = message
+	const { content, author, channel } = message
 
-	if (channel.id !== DISCORD_CHANNEL) return
+	if (channel.id !== HUMMUS_CHANNEL) return
 	if ([HUMMUS_BOT, DISCORD_BOT].includes(author.id)) return
 
-	const embed = {
-		description: content,
-		author: {
-			name: `${author.username}`,
-			icon_url: `https://cdn.discordapp.com/avatars/${author.id}/${author.avatar}.png?size=4096`,
-		},
-	}
-
-	client.hummus.createMessage(HUMMUS_CHANNEL, { embed })
+	await fetch(DISCORD_WEBHOOK, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			content,
+			username: `${author.username}#${author.discriminator}`,
+			avatar_url: `https://hummus-cdn.sys42.net/avatars/${author.id}/${author.avatar}.png?size=4096`,
+			channel_id: DISCORD_CHANNEL,
+		}),
+	})
 
 	if (!channel.guild) return
 	if (author.bot) return

@@ -2,4 +2,4 @@
 
 exports.DISCORD_CHANNELS = {}
 
-exports.OLDGROUND_CHANNELS = {}
+exports.HUMMUS_CHANNELS = {}
